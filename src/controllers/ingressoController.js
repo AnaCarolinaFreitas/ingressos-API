@@ -35,4 +35,17 @@ const createIngresso = async (req, res) => {
     }
 };
 
-module.exports = { getAllIngressos, getIngresso, createIngresso };
+const updateIngresso = async (req, res) => {
+    try {
+        const { quantidade_disponivel } = req.body;
+        const updatedIngresso = await ingressoModel.updateIngresso(req.params.id, quantidade_disponivel);
+        if (!updatedIngresso){
+            return res.status(404).json({message: "ingresso não encontrado"});
+        };
+        res.json(updatedIngresso);
+    } catch (error){
+        res.status(500).json({message: "Erro ao atualizar ingresso"});
+    }
+};
+
+module.exports = { getAllIngressos, getIngresso, createIngresso, updateIngresso };
