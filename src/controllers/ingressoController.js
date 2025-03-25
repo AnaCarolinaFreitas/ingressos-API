@@ -27,6 +27,7 @@ const createIngresso = async (req, res) => {
         const { evento, local_evento, data_evento, categoria, preco, quantidade_disponivel } = req.body;
         const newIngresso = await ingressoModel.createIngresso(evento, local_evento, data_evento, categoria, preco, quantidade_disponivel);
         res.status(201).json(newIngresso);
+
     } catch (error) {
         if (error.code === "23505") {
             return res.status(400).json({message: "Ingresso já cadastrado"});

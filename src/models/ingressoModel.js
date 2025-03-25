@@ -15,6 +15,22 @@ const createIngresso = async (evento, local_evento, data_evento, categoria, prec
         "INSERT INTO ingressos (evento, local_evento, data_evento, categoria, preco, quantidade_disponivel) VALUES ($1, $2, $3, $4, $5, $6) RETURNING *",
         [evento, local_evento, data_evento, categoria, preco, quantidade_disponivel]
     );
+    
+    if (categoria == "Pista" && preco < 100) {
+        return {error: "Ingresso de pista não pode custar menos de 100 reais"};
+    }
+
+    if (categoria == "VIP" && preco < 200) {
+        return {error: "Ingresso de VIP não pode custar menos de 200 reais"};
+    }
+
+    if (categoria == "Camarote" && preco < 300) {
+        return {error: "Ingresso de camarote não pode custar menos de 300 reais"};
+    }
+
+    if (categoria == "Arquibancada" && preco > 80) {
+        return {error: "Ingresso de Arquibancada não pode custar mais de 80 reais"};
+    }
     return result.rows[0];
 };
 
