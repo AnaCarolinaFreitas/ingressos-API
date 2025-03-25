@@ -41,9 +41,10 @@ const vendaIngresso = async (id, quantidade) => {
         return { error: "Ingresso não encontrado para venda" };
     }
 
-    else if (ingresso.quantidade_disponivel < quantidade) {
-        return { error: "Quantidade insuficiente de ingressos." };
-     }
+    if (ingresso.quantidade_disponivel <= 0) {
+        return { error: "Ingressos para esse evento foram esgotados" };
+    }
+     
      const result = await pool.query(
          "UPDATE ingressos SET quantidade_disponivel = $1 WHERE id = $2 RETURNING *",
          [ingresso.quantidade_disponivel - quantidade, id]
